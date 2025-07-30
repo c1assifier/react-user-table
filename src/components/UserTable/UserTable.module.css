@@ -1,92 +1,94 @@
 .wrapper {
   width: 100%;
-  overflow-x: auto;
   border-radius: 12px;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
   background-color: var(--bg-block);
-  border: 1px solid var(--border);
-  padding: 0;
   margin-top: 1rem;
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--accent) var(--bg-block);
+  scrollbar-gutter: stable;
+}
+
+.tableWrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  width: fit-content;
+  min-width: 100%;
 }
 
 .table {
   width: 100%;
-  min-width: 900px;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 12px;
-  background: transparent;
-  text-align: center;
+  max-width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
   font-size: 15px;
+  text-align: center;
+  background-color: var(--bg-block);
 }
 
 th,
 td {
   padding: 13px 16px;
-  border-bottom: 1px solid var(--border);
-  text-align: center;
-  white-space: nowrap;
-  transition: var(--tr);
-  background: transparent;
+  border: 1px solid var(--border);
   color: var(--text-main);
+  min-width: 50px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
-th {
-  font-weight: 600;
-  font-size: 15px;
+.cellContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-td {
-  font-size: 15px;
+.resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 6px;
+  cursor: col-resize;
+  user-select: none;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.resizer:hover {
+  background-color: var(--border);
 }
 
 tbody tr {
-  background-color: var(--bg-block);
+  transition: var(--tr);
 }
 
 tbody tr:hover {
   background-color: var(--bg-hover);
-  cursor: pointer;
-}
-
-tbody tr:last-child td {
-  border-bottom: none;
-}
-
-td:last-child {
-  min-width: 104px;
-  width: 1%;
 }
 
 @media (max-width: 900px) {
-  .wrapper {
-    border-radius: 10px;
-  }
-  .table th,
-  .table td {
+  th,
+  td {
     padding: 10px 8px;
-    font-size: 14px;
-  }
-  .table th {
     font-size: 14px;
   }
 }
 
 @media (max-width: 600px) {
-  .wrapper {
-    border-radius: 8px;
-  }
   .table {
-    min-width: 420px;
     font-size: 13px;
-    border-radius: 8px;
   }
-  .table th,
-  .table td {
-    font-size: 13px;
+
+  th,
+  td {
     padding: 8px 6px;
-    min-width: 80px;
+    font-size: 13px;
   }
 }

@@ -14,6 +14,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.21.3",
     "framer-motion": "^12.23.11",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
