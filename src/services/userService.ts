@@ -1,5 +1,8 @@
 import type { User } from '@/types/user';
 
+const API_URL = 'https://dummyjson.com/users';
+const MOCK_URL = '/mocks/users.json'; // для gh-pages
+
 export const fetchUsers = async (params?: {
   limit?: number;
   skip?: number;
@@ -7,7 +10,7 @@ export const fetchUsers = async (params?: {
   sortBy?: string;
   order?: 'asc' | 'desc';
 }): Promise<{ users: User[]; total: number }> => {
-  const url = new URL('https://dummyjson.com/users');
+  const url = new URL(API_URL);
 
   if (params?.limit != null) url.searchParams.append('limit', String(params.limit));
   if (params?.skip != null) url.searchParams.append('skip', String(params.skip));
@@ -15,13 +18,27 @@ export const fetchUsers = async (params?: {
   if (params?.sortBy) url.searchParams.append('sortBy', params.sortBy);
   if (params?.order) url.searchParams.append('order', params.order);
 
-  const res = await fetch(url.toString());
-  if (!res.ok) throw new Error('Failed to fetch users');
+  try {
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error('Failed to fetch users from API');
 
-  const data = await res.json();
+    const data = await res.json();
+    return {
+      users: data.users,
+      total: data.total,
+    };
+  } catch (err) {
+    console.warn('API недоступен. Загружаем данные из mocks:', err);
 
-  return {
-    users: data.users,
-    total: data.total,
-  };
+    const mockRes = await fetch(MOCK_URL);
+    if (!mockRes.ok) {
+      throw new Error(`Ошибка при загрузке мок-данных: ${mockRes.status}`);
+    }
+
+    const mockData = await mockRes.json();
+    return {
+      users: mockData.users,
+      total: mockData.total,
+    };
+  }
 };
