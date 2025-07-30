@@ -4,11 +4,13 @@
   padding: 2rem;
   background: transparent;
 }
+
 @media (max-width: 900px) {
   .container {
     padding: 1rem;
   }
 }
+
 @media (max-width: 600px) {
   .container {
     padding: 0.5rem;
