@@ -57,6 +57,6 @@ describe('fetchUsers', () => {
       vi.fn(() => Promise.resolve({ ok: false })),
     );
 
-    await expect(fetchUsers()).rejects.toThrow('Failed to fetch users');
+    await expect(fetchUsers(undefined, false)).rejects.toThrow('Failed to fetch users');
   });
 });
