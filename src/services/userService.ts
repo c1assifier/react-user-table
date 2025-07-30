@@ -3,13 +3,16 @@ import type { User } from '@/types/user';
 const API_URL = 'https://dummyjson.com/users';
 const MOCK_URL = '/mocks/users.json'; // для gh-pages
 
-export const fetchUsers = async (params?: {
-  limit?: number;
-  skip?: number;
-  gender?: 'male' | 'female';
-  sortBy?: string;
-  order?: 'asc' | 'desc';
-}): Promise<{ users: User[]; total: number }> => {
+export const fetchUsers = async (
+  params?: {
+    limit?: number;
+    skip?: number;
+    gender?: 'male' | 'female';
+    sortBy?: string;
+    order?: 'asc' | 'desc';
+  },
+  useMockOnFail: boolean = true,
+): Promise<{ users: User[]; total: number }> => {
   const url = new URL(API_URL);
 
   if (params?.limit != null) url.searchParams.append('limit', String(params.limit));
@@ -28,6 +31,10 @@ export const fetchUsers = async (params?: {
       total: data.total,
     };
   } catch (err) {
+    if (!useMockOnFail) {
+      throw new Error('Failed to fetch users');
+    }
+
     console.warn('API недоступен. Загружаем данные из mocks:', err);
 
     const mockRes = await fetch(MOCK_URL);
